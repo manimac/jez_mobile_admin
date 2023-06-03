@@ -17,6 +17,10 @@ export class VehiclesComponent implements OnInit {
     type: new FormControl('', Validators.required),
     name: new FormControl('', Validators.required),
     priceperhr: new FormControl('', Validators.required),
+    priceperday: new FormControl('', Validators.required),
+    adavanceamountforday: new FormControl('', Validators.required),
+    noofseats: new FormControl('', Validators.required),
+    acceleration: new FormControl('', Validators.required),
     location_id: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     shortdescription: new FormControl('', Validators.required),
@@ -33,7 +37,7 @@ export class VehiclesComponent implements OnInit {
     nationality: new FormControl(''),
     voertuig: new FormControl(''),
     status: new FormControl(''),
-    availabledays: new FormControl(''),
+    availabledays: new FormControl('')
   })
   showForm: boolean = false;
   dataLists: any = [];
@@ -41,37 +45,39 @@ export class VehiclesComponent implements OnInit {
   staffFilers: any = [];
   transportFilers: any = [];
   locations: any = [];
+  specifications: any = [];
+  selectedSpecifications: any = [];
   public selectedRow: any = {};
   userDetails: any = {};
   isAdmin: boolean = false;
   userRole: any = '';
-  constructor(private http: HttpRequestService, private storage: StorageService) { 
+  constructor(private http: HttpRequestService, private storage: StorageService) {
     this.userDetails = this.storage.getUserDetails();
     this.isAdmin = this.storage.isAdmin();
     this.userRole = this.storage.getRole();
     this.loadTypes();
   }
 
-  loadTypes(){
-    if(this.isAdmin || (this.userRole == 'All')){
+  loadTypes() {
+    if (this.isAdmin || (this.userRole == 'All')) {
       this.vehicleTypes = types;
     }
-    else if(this.userRole == 'Rent & Staffing'){
+    else if (this.userRole == 'Rent & Staffing') {
       this.vehicleTypes = ['Rent', 'Staffing'];
     }
-    else if(this.userRole == 'Rent & Transport'){
+    else if (this.userRole == 'Rent & Transport') {
       this.vehicleTypes = ['Rent', 'Transport'];
     }
-    else if(this.userRole == 'Staffing & Transport'){
+    else if (this.userRole == 'Staffing & Transport') {
       this.vehicleTypes = ['Staffing', 'Transport'];
     }
-    else if(this.userRole == 'Rent'){
+    else if (this.userRole == 'Rent') {
       this.vehicleTypes = ['Rent'];
     }
-    else if(this.userRole == 'Staffing'){
+    else if (this.userRole == 'Staffing') {
       this.vehicleTypes = ['Staffing'];
     }
-    else if(this.userRole == 'Transport'){
+    else if (this.userRole == 'Transport') {
       this.vehicleTypes = ['Transport'];
     }
   }
@@ -79,6 +85,7 @@ export class VehiclesComponent implements OnInit {
   ngOnInit(): void {
     this.loadData();
     this.loadLocations();
+    this.loadSpecifications();
   }
 
   get formControls() {
@@ -90,7 +97,7 @@ export class VehiclesComponent implements OnInit {
   }
 
   loadData() {
-    this.http.post('products', {fromadmin:1}).subscribe(
+    this.http.post('products', { fromadmin: 1 }).subscribe(
       (response: any) => {
         this.dataLists = response && response.data;
       },
@@ -127,8 +134,36 @@ export class VehiclesComponent implements OnInit {
     )
   }
 
+  loadSpecifications() {
+    this.http.get('specifications').subscribe(
+      (response: any) => {
+        this.specifications = response;
+      },
+      (error: any) => {
+        this.http.exceptionHandling(error);
+      }
+    )
+  }
+
+
+  selectSpecification(event: any) {
+    let alreadySpec = this.selectedSpecifications.find((x: any) => x.id == event.target.value);
+    if (!alreadySpec) {
+      let tmp = { id: event.target.value, name: '' };
+      let spec = this.specifications.find((x: any) => x.id == event.target.value)
+      tmp.name = spec.name;
+      this.selectedSpecifications.push(tmp);
+    }
+    event.target.value = '';
+  }
+
+  deleteSpec(index: any) {
+    this.selectedSpecifications.splice(index, 1);
+  }
+
   create(element: HTMLElement) {
     element.scrollIntoView()
+    this.selectedSpecifications = [];
     this.showForm = true;
   }
 
@@ -136,6 +171,11 @@ export class VehiclesComponent implements OnInit {
     this.showForm = true;
     this.loadFilters(params.type);
     this.selectedRow = params;
+    for (const spec of params.productspecifications) {
+      if (spec.specification) {
+        this.selectedSpecifications.push({ id: spec.specification_id, name: spec.specification.name });
+      }
+    }
     this.formGroup.patchValue(params);
     element.scrollIntoView()
   }
@@ -228,6 +268,9 @@ export class VehiclesComponent implements OnInit {
         _form.append('images', this.formGroup.value.images[i], this.formGroup.value.images[i]['name'])
       }
     }
+    if (this.selectedSpecifications.length) {
+      _form.append('specifications', JSON.stringify(this.selectedSpecifications));
+    }
     this.http.post(url, _form).subscribe(
       (response: any) => {
         if (this.formGroup.value.id) {
@@ -237,6 +280,7 @@ export class VehiclesComponent implements OnInit {
           this.http.successMessage('Created');
         }
         this.showForm = false;
+        this.selectedSpecifications = [];
         this.formGroup.reset();
         this.loadData();
       },

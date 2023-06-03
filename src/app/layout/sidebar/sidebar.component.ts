@@ -84,6 +84,11 @@ export class SidebarComponent implements OnInit {
           icon: 'mdi-truck'
         },
         {
+          label: 'Specifications',
+          route: '/specifications',
+          icon: 'mdi-truck'
+        },
+        {
           label: 'Filter Options',
           route: '/filter-options',
           icon: 'mdi-filter'

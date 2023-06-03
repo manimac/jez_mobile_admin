@@ -36,6 +36,7 @@ import { MaintenanceComponent } from './pages/maintenance/maintenance.component'
 import { CouponsComponent } from './pages/coupons/coupons.component';
 import { UserDetailComponent } from './pages/user-detail/user-detail.component';
 import { CertificateComponent } from './pages/certificate/certificate.component';
+import { SpecificationComponent } from './pages/specification/specification.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,7 +70,8 @@ import { CertificateComponent } from './pages/certificate/certificate.component'
     CouponsComponent,
     AdvertisementComponent,
     UserDetailComponent,
-    CertificateComponent
+    CertificateComponent,
+    SpecificationComponent
   ],
   imports: [
     BrowserModule,
