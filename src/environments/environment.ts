@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   // baseurl: 'http://localhost:8080/jezsel/',
-  baseurl: 'https://jezsel.nl/jezsel/',
-  authurl: 'https://jezsel.nl/jezsel/api/'
+  baseurl: 'https://jezsel.nl/mobileapp/',
+  authurl: 'https://jezsel.nl/mobileapp/api/',
 };
 
 /*

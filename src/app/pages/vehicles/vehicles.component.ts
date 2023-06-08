@@ -235,6 +235,9 @@ export class VehiclesComponent implements OnInit {
     _form.append('route', str);
     _form.append('type', this.formGroup.value.type);
     _form.append('priceperhr', this.formGroup.value.priceperhr);
+    _form.append('adavanceamountforday', this.formGroup.value.adavanceamountforday);
+    _form.append('noofseats', this.formGroup.value.noofseats);
+    _form.append('acceleration', this.formGroup.value.acceleration);
     _form.append('location_id', this.formGroup.value.location_id);
     _form.append('shortdescription', this.formGroup.value.shortdescription);
     _form.append('description', this.formGroup.value.description);
