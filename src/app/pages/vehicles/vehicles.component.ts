@@ -15,6 +15,7 @@ export class VehiclesComponent implements OnInit {
   formGroup: FormGroup = new FormGroup({
     id: new FormControl(''),
     type: new FormControl('', Validators.required),
+    vehicletype: new FormControl(''),
     name: new FormControl('', Validators.required),
     priceperhr: new FormControl('', Validators.required),
     priceperday: new FormControl('', Validators.required),
@@ -244,6 +245,7 @@ export class VehiclesComponent implements OnInit {
     _form.append('status', this.formGroup.value.status ? "1" : "0");
     _form.append('showinindex', this.formGroup.value.showinindex);
     _form.append('thumbnail', this.formGroup.value.thumbnail);
+    _form.append('vehicletype', this.formGroup.value.vehicletype);
     if (this.formGroup.value.vehicle)
       _form.append('vehicle', this.formGroup.value.vehicle || null);
     if (this.formGroup.value.fuel)
