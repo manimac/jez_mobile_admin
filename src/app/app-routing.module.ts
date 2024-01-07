@@ -25,6 +25,8 @@ import { AdvertisementComponent } from './pages/advertisement/advertisement.comp
 import { UserDetailComponent } from './pages/user-detail/user-detail.component';
 import { CertificateComponent } from './pages/certificate/certificate.component';
 import { SpecificationComponent } from './pages/specification/specification.component';
+import { CategoriesComponent } from './pages/categories/categories.component';
+import { EmployersComponent } from './pages/employers/employers.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/vehicles', pathMatch: 'full' },
@@ -51,6 +53,8 @@ const routes: Routes = [
   { path: 'user-detail/:id', component: UserDetailComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
   { path: 'specifications', component: SpecificationComponent },
+  { path: 'categories', component: CategoriesComponent, canActivate: [AuthGuardService] },
+  { path: 'employers', component: EmployersComponent, canActivate: [AuthGuardService] },
   { path: '**', component: VehiclesComponent }
 ];
 

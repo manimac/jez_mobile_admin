@@ -37,7 +37,10 @@ export class VehiclesComponent implements OnInit {
     nationality: new FormControl(''),
     voertuig: new FormControl(''),
     status: new FormControl(''),
-    availabledays: new FormControl('')
+    availabledays: new FormControl(''),
+    qnr: new FormControl(''),
+    lat: new FormControl(''),
+    lng: new FormControl('')
   })
   showForm: boolean = false;
   dataLists: any = [];
@@ -244,6 +247,9 @@ export class VehiclesComponent implements OnInit {
     _form.append('status', this.formGroup.value.status ? "1" : "0");
     _form.append('showinindex', this.formGroup.value.showinindex);
     _form.append('thumbnail', this.formGroup.value.thumbnail);
+    _form.append('qnr', this.formGroup.value.qnr);
+    _form.append('lat', this.formGroup.value.lat);
+    _form.append('lng', this.formGroup.value.lng);
     if (this.formGroup.value.vehicle)
       _form.append('vehicle', this.formGroup.value.vehicle || null);
     if (this.formGroup.value.fuel)
@@ -296,6 +302,34 @@ export class VehiclesComponent implements OnInit {
   cancel() {
     this.showForm = false;
     this.formGroup.reset();
+  }
+
+  fetchLocation(){
+    if(this.formGroup.value.qnr){
+      this.http.post("invers/getStatus", {qnr: this.formGroup.value.qnr}).subscribe(
+        (response: any) => {
+          if(response && response.body){
+            response.body = JSON.parse(response.body);
+            if(response.body && response.body.position){
+              let obj = {
+                lat: response.body.position.lat ? response.body.position.lat : '',
+                lng: response.body.position.lon ? response.body.position.lon : ''
+              }
+              this.formGroup.patchValue(obj);
+            }
+            console.log(response.body);
+          }
+          
+        },
+        (error: any) => {
+          this.http.exceptionHandling(error);
+        }
+      )
+    }
+    else{
+      this.http.errorMessage("Please enter QNR Code")
+    }
+    
   }
 
 }

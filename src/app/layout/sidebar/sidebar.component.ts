@@ -18,21 +18,21 @@ export class SidebarComponent implements OnInit {
     this.userDetails = this.storage.getUserDetails();
     this.loadNavigations();
     if(this.userDetails){
-      this.loadOrderData();
-      this.loadUserData();
-      this.loadWithdrawData();
+      // this.loadOrderData();
+      // this.loadUserData();
+      // this.loadWithdrawData();
     }    
   }
 
   ngOnInit(): void {
     this.http.updateOrder.subscribe((response: any)=>{
-      this.loadOrderData();
+      // this.loadOrderData();
     })
     this.http.updateUser.subscribe((response: any)=>{
-      this.loadUserData();
+      // this.loadUserData();
     })
     this.http.updateWithdraw.subscribe((response: any)=>{
-      this.loadWithdrawData();
+      // this.loadWithdrawData();
     })
   }
 
@@ -99,10 +99,20 @@ export class SidebarComponent implements OnInit {
           icon: 'mdi-truck'
         },
         {
-          label: 'Peek Hours',
-          route: '/peek-hours',
-          icon: 'mdi-clock'
+          label: 'Staffing Categories',
+          route: '/categories',
+          icon: 'mdi-filter'
         },
+        {
+          label: 'Employers',
+          route: '/employers',
+          icon: 'mdi-filter'
+        },
+        // {
+        //   label: 'Peek Hours',
+        //   route: '/peek-hours',
+        //   icon: 'mdi-clock'
+        // },
         {
           label: 'About us',
           route: '/about-us',

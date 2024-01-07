@@ -37,6 +37,8 @@ import { CouponsComponent } from './pages/coupons/coupons.component';
 import { UserDetailComponent } from './pages/user-detail/user-detail.component';
 import { CertificateComponent } from './pages/certificate/certificate.component';
 import { SpecificationComponent } from './pages/specification/specification.component';
+import { CategoriesComponent } from './pages/categories/categories.component';
+import { EmployersComponent } from './pages/employers/employers.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -71,7 +73,9 @@ import { SpecificationComponent } from './pages/specification/specification.comp
     AdvertisementComponent,
     UserDetailComponent,
     CertificateComponent,
-    SpecificationComponent
+    SpecificationComponent,
+    CategoriesComponent,
+    EmployersComponent
   ],
   imports: [
     BrowserModule,

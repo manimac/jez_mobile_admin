@@ -282,6 +282,32 @@
                                         </table>
                                     </div>
                                 </div>
+                                <div class="row">                                    
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>QNR</label>
+                                            <input type="text" class="form-control" placeholder="QNR"
+                                                formControlName="qnr">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Latitude</label>
+                                            <input type="text" class="form-control" placeholder="Latitude"
+                                                formControlName="lat">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Longitude</label>
+                                            <input type="text" class="form-control" placeholder="longitude"
+                                                formControlName="lng">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <span class="btn btn-info" (click)="fetchLocation()">Fetch Location</span>
+                                    </div>
+                                </div>
                                 <div class="row mt-4">
                                     <div class="col-md-4">
                                         <button type="submit" class="btn btn-gradient-primary mr-2"
