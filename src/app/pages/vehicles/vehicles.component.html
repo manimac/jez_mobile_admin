@@ -87,6 +87,7 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-md-9"></div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Short Description</label>
@@ -319,6 +320,46 @@
                                     </div>
                                     <div class="col-md-4">
                                         <span class="btn btn-info" (click)="fetchLocation()">Fetch Location</span>
+                                    </div>
+                                </div>
+                                <h3>Damage Uploads</h3>
+                                <div class="row">
+                                    
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Image 1</label>
+                                            <input type="file" class="form-control" #image1
+                                                (change)="onImage1Change(image1.files)">
+                                        </div>
+                                        <img [src]="selectedRow.path + selectedRow.image1" width="100"
+                                            *ngIf="selectedRow && selectedRow.image1">                                            
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Image 2</label>
+                                            <input type="file" class="form-control" #image2
+                                                (change)="onImage2Change(image2.files)">
+                                        </div>
+                                        <img [src]="selectedRow.path + selectedRow.image2" width="100"
+                                            *ngIf="selectedRow && selectedRow.image2">                                            
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Image 3</label>
+                                            <input type="file" class="form-control" #image3
+                                                (change)="onImage3Change(image3.files)">
+                                        </div>
+                                        <img [src]="selectedRow.path + selectedRow.image3" width="100"
+                                            *ngIf="selectedRow && selectedRow.image3">                                            
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Image 4</label>
+                                            <input type="file" class="form-control" #image4
+                                                (change)="onImage4Change(image4.files)">
+                                        </div>
+                                        <img [src]="selectedRow.path + selectedRow.image4" width="100"
+                                            *ngIf="selectedRow && selectedRow.image4">                                            
                                     </div>
                                 </div>
                                 <div class="row mt-4">

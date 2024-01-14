@@ -38,6 +38,10 @@ export class VehiclesComponent implements OnInit {
     nationality: new FormControl(''),
     voertuig: new FormControl(''),
     status: new FormControl(''),
+    image1: new FormControl(''),
+    image2: new FormControl(''),
+    image3: new FormControl(''),
+    image4: new FormControl(''),
     availabledays: new FormControl(''),
     qnr: new FormControl(''),
     lat: new FormControl(''),
@@ -220,6 +224,26 @@ export class VehiclesComponent implements OnInit {
       thumbnail: file[0]
     });
   }
+  onImage1Change(file: any) {
+    this.formGroup.patchValue({
+      image1: file[0]
+    });
+  }
+  onImage2Change(file: any) {
+    this.formGroup.patchValue({
+      image2: file[0]
+    });
+  }
+  onImage3Change(file: any) {
+    this.formGroup.patchValue({
+      image3: file[0]
+    });
+  }
+  onImage4Change(file: any) {
+    this.formGroup.patchValue({
+      image4: file[0]
+    });
+  }
 
   onImageChange(event: any) {
     if (event.target.files.length > 0) {
@@ -252,6 +276,10 @@ export class VehiclesComponent implements OnInit {
     _form.append('lat', this.formGroup.value.lat);
     _form.append('lng', this.formGroup.value.lng);
     _form.append('vehicletype', this.formGroup.value.vehicletype);
+    _form.append('image1', this.formGroup.value.image1);
+    _form.append('image2', this.formGroup.value.image2);
+    _form.append('image3', this.formGroup.value.image3);
+    _form.append('image4', this.formGroup.value.image4);
     if (this.formGroup.value.vehicle)
       _form.append('vehicle', this.formGroup.value.vehicle || null);
     if (this.formGroup.value.fuel)
