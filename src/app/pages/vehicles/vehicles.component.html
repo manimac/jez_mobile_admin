@@ -322,7 +322,7 @@
                                         <span class="btn btn-info" (click)="fetchLocation()">Fetch Location</span>
                                     </div>
                                 </div>
-                                <h3>Damage Uploads</h3>
+                                <h3 class="row mt-4">Damage Uploads</h3>
                                 <div class="row">
                                     
                                     <div class="col-md-4">
@@ -367,6 +367,43 @@
                                         <button type="submit" class="btn btn-gradient-primary mr-2"
                                             [disabled]="formGroup.invalid">Submit</button>
                                         <button class="btn btn-light" (click)="cancel()">Cancel</button>
+                                    </div>
+                                </div>
+                                <div class="row mt-4" *ngIf="checkOrder()"> 
+                                    <div class="col-md-12">
+                                        <h3>Orders</h3>
+                                        <table class="table table-responsive">
+                                            <thead>
+                                                <th>Checkin Date</th>
+                                                <th>Checkout Date</th>
+                                                <th>Before 1</th>
+                                                <th>Before 2</th>
+                                                <th>Before 3</th>
+                                                <th>Before 4</th>
+                                                <th>Before 5</th>
+                                                <th>After 1</th>
+                                                <th>After 2</th>
+                                                <th>After 3</th>
+                                                <th>After 4</th>
+                                                <th>After 5</th>
+                                            </thead>
+                                            <tbody class="screenshots">
+                                                <tr *ngFor="let order of selectedRow.Orderhistories">
+                                                    <td>{{order.checkindate|date:'medium'}}</td>
+                                                    <td>{{order.checkoutdate|date:'medium'}}</td>
+                                                    <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.initialimage1}}" *ngIf="order.screenshoot?.initialimage1"></td>
+                                                    <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.initialimage2}}" *ngIf="order.screenshoot?.initialimage2"></td>
+                                                    <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.initialimage3}}" *ngIf="order.screenshoot?.initialimage3"></td>
+                                                    <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.initialimage4}}" *ngIf="order.screenshoot?.initialimage4"></td>
+                                                    <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.additionstartimage}}" *ngIf="order.screenshoot?.additionstartimage"></td>
+                                                    <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.completedimage1}}" *ngIf="order.screenshoot?.completedimage1"></td>
+                                                    <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.completedimage2}}" *ngIf="order.screenshoot?.completedimage2"></td>
+                                                    <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.completedimage3}}" *ngIf="order.screenshoot?.completedimage3"></td>
+                                                    <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.completedimage4}}" *ngIf="order.screenshoot?.completedimage4"></td>
+                                                    <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.additionendimage}}" *ngIf="order.screenshoot?.additionendimage"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </form>

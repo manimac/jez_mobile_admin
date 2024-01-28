@@ -362,4 +362,8 @@ export class VehiclesComponent implements OnInit {
     
   }
 
+  checkOrder(){
+    return this.selectedRow && this.selectedRow.Orderhistories && Array.isArray(this.selectedRow.Orderhistories) && (this.selectedRow.Orderhistories.length>0)
+  }
+
 }
