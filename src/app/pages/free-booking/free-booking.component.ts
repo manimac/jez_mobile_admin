@@ -5,13 +5,14 @@ import { HttpRequestService } from 'src/app/services/http-request/http-request.s
 import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
-  selector: 'app-maintenance',
-  templateUrl: './maintenance.component.html',
-  styleUrls: ['./maintenance.component.css']
+  selector: 'app-free-booking',
+  templateUrl: './free-booking.component.html',
+  styleUrls: ['./free-booking.component.css']
 })
-export class MaintenanceComponent implements OnInit {
+export class FreeBookingComponent implements OnInit {
 
   vehicleTypes: any = [];
+  usersLists: any = [];
   thumbImage: any;
   showForm: boolean = false;
   dataLists: any = [];
@@ -25,6 +26,7 @@ export class MaintenanceComponent implements OnInit {
   isAdmin: boolean = false;
   userRole: any = '';
   productId: any = '';
+  userId: any = '';
   checkinDate: any = '';
   checkintime: any = '';
   checkoutDate: any = '';
@@ -80,6 +82,7 @@ export class MaintenanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+    this.loadUsers();
     this.loadLocations();
   }
 
@@ -96,20 +99,33 @@ export class MaintenanceComponent implements OnInit {
       status: 1
     }
     this.http.post('orders', params).subscribe(
-      (response: any) => {
-        if (response && response.data && Array.isArray(response.data) && (response.data.length > 0)) {
+      (response: any)=>{
+        if(response && response.data && Array.isArray(response.data) && (response.data.length>0)){
           response.data.forEach((element: any) => {
             let services: any = [];
             element.Orderhistories.forEach((element2: any) => {
-              if (!element2.extra_id) {
+              if(!element2.extra_id){
                 services.push(element2.type);
-              }
+              }              
             });
             element.services = services.join(',');
           });
           this.dataLists = response.data;
-          this.dataLists = this.dataLists.filter((el: any) => (el.type == 'maintenance'))
+          this.dataLists = this.dataLists.filter((el: any)=>(el.freebooking == 1))
           console.log(this.dataLists)
+        }
+      },
+      (error: any)=>{
+        this.http.exceptionHandling(error);
+      }
+    )
+  }
+
+  loadUsers() {
+    this.http.post('users', {}).subscribe(
+      (response: any) => {
+        if(response && response.data && Array.isArray(response.data) && response.data.length>0){
+          this.usersLists = response.data.filter((element: any)=>(element.is_admin!=1));
         }
       },
       (error: any) => {
@@ -231,7 +247,7 @@ export class MaintenanceComponent implements OnInit {
     let filterProduct = this.productLists.filter((el: any) => (el.id == this.productId));
     let checkinDate = this.checkinDate.split('-').reverse().join('-');
     let checkoutDate = this.checkoutDate.split('-').reverse().join('-');
-    if (filterProduct && (filterProduct.length > 0)) {
+    if (filterProduct && (filterProduct.length > 0)) {      
       filterProduct[0]['search'] = {
         "locationid": filterProduct[0].location_id,
         "checkindate": checkinDate,
@@ -240,14 +256,15 @@ export class MaintenanceComponent implements OnInit {
         "checkouttime": this.checkouttime
       }
     }
-    filterProduct[0]["type"] = 'maintenance'
+    filterProduct[0]["type"] = 'Rent'
     let params: any = {}
     params.total = 0
     params.products = filterProduct;
     params['amountpaid'] = 0;
     params['fromwallet'] = 0
     params.status = 1;
-    params.type = 'maintenance';
+    params.user_id = this.userId;
+    params.freebooking = 1;
     params['maxcheckoutdate'] = this.checkoutDate;
     let obj = {
       "product_id": filterProduct[0].id,
@@ -269,31 +286,33 @@ export class MaintenanceComponent implements OnInit {
               this.loadData();
             });
         }
-        else {
+        else{
           this.http.errorMessage("We don't have availability for this slot. Please select a different slot.")
         }
       });
+
+    
   }
 
   cancel() {
     this.showForm = false;
   }
 
-  splitDate(date: any) {
+  splitDate(date: any){
     let result = '';
-    if (date) {
+    if(date){
       let splitDate = date.split('T');
-      if (splitDate && Array.isArray(splitDate) && splitDate.length > 0) {
+      if(splitDate && Array.isArray(splitDate) && splitDate.length>0){
         let newDate = splitDate[0];
         let splitReverse = newDate.split('-');
-        if (splitReverse && Array.isArray(splitReverse) && splitReverse.length > 0) {
+        if(splitReverse && Array.isArray(splitReverse) && splitReverse.length>0){
           result = splitReverse.reverse().join('-');
         }
       }
-      else {
+      else{
         result = splitDate;
       }
-    }
+    }    
     return result;
   }
 

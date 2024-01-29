@@ -27,6 +27,7 @@ import { CertificateComponent } from './pages/certificate/certificate.component'
 import { SpecificationComponent } from './pages/specification/specification.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { EmployersComponent } from './pages/employers/employers.component';
+import { FreeBookingComponent } from './pages/free-booking/free-booking.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/vehicles', pathMatch: 'full' },
@@ -47,6 +48,7 @@ const routes: Routes = [
   { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuardService] },
   { path: 'withdraw-request', component: WithDrawRequestComponent, canActivate: [AuthGuardService] },
   { path: 'maintenance', component: MaintenanceComponent, canActivate: [AuthGuardService] },
+  { path: 'free-booking', component: FreeBookingComponent, canActivate: [AuthGuardService] },
   { path: 'coupons', component: CouponsComponent, canActivate: [AuthGuardService] },
   { path: 'advertisement', component: AdvertisementComponent, canActivate: [AuthGuardService] },
   { path: 'certificates', component: CertificateComponent, canActivate: [AuthGuardService] },

@@ -39,6 +39,7 @@ import { CertificateComponent } from './pages/certificate/certificate.component'
 import { SpecificationComponent } from './pages/specification/specification.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { EmployersComponent } from './pages/employers/employers.component';
+import { FreeBookingComponent } from './pages/free-booking/free-booking.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,7 +76,8 @@ import { EmployersComponent } from './pages/employers/employers.component';
     CertificateComponent,
     SpecificationComponent,
     CategoriesComponent,
-    EmployersComponent
+    EmployersComponent,
+    FreeBookingComponent
   ],
   imports: [
     BrowserModule,
