@@ -40,6 +40,7 @@ import { SpecificationComponent } from './pages/specification/specification.comp
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { EmployersComponent } from './pages/employers/employers.component';
 import { FreeBookingComponent } from './pages/free-booking/free-booking.component';
+import { FunctionsComponent } from './pages/functions/functions.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,7 +78,8 @@ import { FreeBookingComponent } from './pages/free-booking/free-booking.componen
     SpecificationComponent,
     CategoriesComponent,
     EmployersComponent,
-    FreeBookingComponent
+    FreeBookingComponent,
+    FunctionsComponent
   ],
   imports: [
     BrowserModule,

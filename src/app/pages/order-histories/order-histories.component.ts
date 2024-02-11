@@ -141,4 +141,8 @@ export class OrderHistoriesComponent implements OnInit {
     return '';    
   }
 
+  checkOrder(){
+    return this.selectedProduct
+  }
+
 }

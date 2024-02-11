@@ -28,6 +28,7 @@ import { SpecificationComponent } from './pages/specification/specification.comp
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { EmployersComponent } from './pages/employers/employers.component';
 import { FreeBookingComponent } from './pages/free-booking/free-booking.component';
+import { FunctionsComponent } from './pages/functions/functions.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/vehicles', pathMatch: 'full' },
@@ -57,6 +58,7 @@ const routes: Routes = [
   { path: 'specifications', component: SpecificationComponent },
   { path: 'categories', component: CategoriesComponent, canActivate: [AuthGuardService] },
   { path: 'employers', component: EmployersComponent, canActivate: [AuthGuardService] },
+  { path: 'functions', component: FunctionsComponent, canActivate: [AuthGuardService] },
   { path: '**', component: VehiclesComponent }
 ];
 
