@@ -23,6 +23,7 @@ export class VehiclesComponent implements OnInit {
     noofseats: new FormControl('', Validators.required),
     acceleration: new FormControl('', Validators.required),
     location_id: new FormControl('', Validators.required),
+    location: new FormControl(''),
     description: new FormControl('', Validators.required),
     shortdescription: new FormControl('', Validators.required),
     thumbnail: new FormControl('', Validators.required),
@@ -267,6 +268,7 @@ export class VehiclesComponent implements OnInit {
     _form.append('noofseats', this.formGroup.value.noofseats);
     _form.append('acceleration', this.formGroup.value.acceleration);
     _form.append('location_id', this.formGroup.value.location_id);
+    _form.append('location', this.formGroup.value.location);
     _form.append('shortdescription', this.formGroup.value.shortdescription);
     _form.append('description', this.formGroup.value.description);
     _form.append('status', this.formGroup.value.status ? "1" : "0");
@@ -341,11 +343,25 @@ export class VehiclesComponent implements OnInit {
           if(response && response.body){
             response.body = JSON.parse(response.body);
             if(response.body && response.body.position){
-              let obj = {
-                lat: response.body.position.lat ? response.body.position.lat : '',
-                lng: response.body.position.lon ? response.body.position.lon : ''
-              }
-              this.formGroup.patchValue(obj);
+              this.http.getGoogleAddress(response.body.position.lat, response.body.position.lon).subscribe((element: any)=>{
+                let locations = '';
+                if (element && (element.results) && Array.isArray(element.results) && (element.results.length > 0)) {
+                  let currentAddress = element.results.find((element: any)=>(element.types && Array.isArray(element.types) && (element.types.length>0) && (element.types[0]=='street_address')))
+                  if(!currentAddress){
+                    currentAddress = element.results[0];
+                  }
+                  if(currentAddress){
+                    locations = currentAddress.formatted_address;
+                  }          
+                }
+                let obj = {
+                  lat: response.body.position.lat ? response.body.position.lat : '',
+                  lng: response.body.position.lon ? response.body.position.lon : '',
+                  location: locations
+                }
+                this.formGroup.patchValue(obj);
+              })
+              
             }
             console.log(response.body);
           }
@@ -360,6 +376,24 @@ export class VehiclesComponent implements OnInit {
       this.http.errorMessage("Please enter QNR Code")
     }
     
+  }
+
+  updateAddress(){
+    this.http.getGoogleAddress(this.formGroup.value.lat, this.formGroup.value.lng).subscribe((element: any)=>{
+      if (element && (element.results) && Array.isArray(element.results) && (element.results.length > 0)) {
+        let currentAddress = element.results.find((element: any)=>(element.types && Array.isArray(element.types) && (element.types.length>0) && (element.types[0]=='street_address')))
+        if(!currentAddress){
+          currentAddress = element.results[0];
+        }
+        if(currentAddress){
+          let obj = {
+            location: currentAddress.formatted_address
+          }
+          this.formGroup.patchValue(obj);
+        }          
+      }
+      
+    })
   }
 
   checkOrder(){

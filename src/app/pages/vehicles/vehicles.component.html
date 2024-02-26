@@ -76,7 +76,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <!-- <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Location</label>
                                             <select class="form-control" formControlName="location_id">
@@ -86,7 +86,7 @@
                                                 </option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-md-9"></div>
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -308,14 +308,21 @@
                                         <div class="form-group">
                                             <label>Latitude</label>
                                             <input type="text" class="form-control" placeholder="Latitude"
-                                                formControlName="lat">
+                                                formControlName="lat" (change)="updateAddress()">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Longitude</label>
                                             <input type="text" class="form-control" placeholder="longitude"
-                                                formControlName="lng">
+                                                formControlName="lng" (change)="updateAddress()">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Location</label>
+                                            <input type="text" class="form-control" placeholder="Address"
+                                                formControlName="location" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
