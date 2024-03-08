@@ -109,6 +109,7 @@ export class OrderHistoriesComponent implements OnInit {
           }
         });
         this.selectedProduct = histories;
+        console.log(this.selectedProduct)
       },
       (error: any) => {
         this.http.exceptionHandling(error);
@@ -143,6 +144,19 @@ export class OrderHistoriesComponent implements OnInit {
 
   checkOrder(){
     return this.selectedProduct
+  }
+
+  endbooking(order: any) {
+    this.http.post('order-history/update', { id: order.id, endbooking: 1 }).subscribe(
+      (response: any) => {
+        this.http.successMessage("Booking completed");
+        this.showDetails = false;
+        this.loadData();
+      },
+      (error: any) => {
+        this.http.exceptionHandling(error);
+      }
+    )
   }
 
 }

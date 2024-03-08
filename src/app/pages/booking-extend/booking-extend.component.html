@@ -1,0 +1,85 @@
+<div class="content-wrapper">
+    <div class="page-header">
+        <h3 class="page-title"> Order Histories </h3>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search Order Id"
+                                    [(ngModel)]="orderHistoryId" (keyup.enter)="findOrders()">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <button (click)="findOrders()" class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 grid-margin stretch-card" *ngIf="loaded">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-bordered table-responsive" *ngIf="orderData">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>User</th>
+                                <th>Checkin</th>
+                                <th>Checkout</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <select class="form-control" [(ngModel)]="orderData.product_id" name="productId">
+                                        <option value="">Select Type</option>
+                                        <option *ngFor="let type of productLists" value="{{type.id}}">{{type.name}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>{{orderData.User?.fullname}} {{orderData.checkintime}}</td>
+                                <td>{{orderData.checkinDate}} {{orderData.checkintime}}</td>
+                                <td>{{orderData.checkoutDate}} {{orderData.checkouttime}}</td>
+                                <td><button class="btn btn-primary" (click)="checkAvailability()">Edit</button></td>
+                            </tr>
+                        </tbody>
+                        <!-- <tbody>
+                            <tr>
+                                <td>{{orderData.name}}</td>
+                                <td>{{orderData.User?.fullname}} {{orderData.checkintime}}</td>
+                                <td>
+                                    <input type="date" class="form-control" [(ngModel)]="orderData.checkinModifieddate" [attr.min]='minDate' (change)="setCheckoutDate()">
+                                </td>
+                                <td>
+                                    <select class="form-control" placeholder="check-in Time"
+                                        [(ngModel)]="orderData.checkintime" (change)="changeCheckin()"
+                                        name="checkintime">
+                                        <option value="">check-in Time</option>
+                                        <option *ngFor="let x of slots" [disabled]="checkinDisabled(x)" value="{{x}}">
+                                            {{x}}</option>
+                                    </select>
+                                </td>
+                                <td><input type="date" class="form-control"
+                                        [(ngModel)]="orderData.checkoutModifieddate" [attr.min]='orderData.checkinModifieddate'></td>
+                                <td>
+                                    <select class="form-control" placeholder="check-out Time" [(ngModel)]="orderData.checkouttime" name="checkouttime">
+                                        <option value="">check-out Time</option>
+                                        <option *ngFor="let x of slots" [disabled]="checkoutDisabled(x)" value="{{x}}">
+                                            {{x}}</option>
+                                    </select>
+                                </td>
+                                <td><button class="btn btn-primary" (click)="checkAvailability()">Edit</button></td>
+                            </tr>
+                        </tbody> -->
+                    </table>
+                    <p *ngIf="!orderData">No records found</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

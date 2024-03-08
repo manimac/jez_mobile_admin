@@ -41,6 +41,7 @@ import { CategoriesComponent } from './pages/categories/categories.component';
 import { EmployersComponent } from './pages/employers/employers.component';
 import { FreeBookingComponent } from './pages/free-booking/free-booking.component';
 import { FunctionsComponent } from './pages/functions/functions.component';
+import { BookingExtendComponent } from './pages/booking-extend/booking-extend.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,7 +80,8 @@ import { FunctionsComponent } from './pages/functions/functions.component';
     CategoriesComponent,
     EmployersComponent,
     FreeBookingComponent,
-    FunctionsComponent
+    FunctionsComponent,
+    BookingExtendComponent
   ],
   imports: [
     BrowserModule,

@@ -87,9 +87,9 @@ export class FreeBookingComponent implements OnInit {
   }
 
   loadData() {
-    this.http.post('products', {}).subscribe(
+    this.http.post('productsnofilter', {}).subscribe(
       (response: any) => {
-        this.productLists = response && response.data;
+        this.productLists = response;
       },
       (error: any) => {
         this.http.exceptionHandling(error);

@@ -19,6 +19,7 @@
                                         <th>Checkout</th>
                                         <th>Extras</th>
                                         <th></th>
+                                        <th>End booking</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,8 +50,12 @@
                                             </table>
                                         </td>
                                         <td><button class="btn btn-primary" (click)="cancelOrder(order)"
-                                                *ngIf="order.status!=0">Cancel</button><span class="text-danger"
-                                                *ngIf="order.status==0">Canceled</span></td>
+                                                *ngIf="order.status!=0&&order.endbooking!=1">Cancel</button><span class="text-danger"
+                                                *ngIf="order.status==0&&order.endbooking!=1">Canceled</span>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary" *ngIf="order.endbooking!=1" (click)="endbooking(order)">End booking</button>
+                                        </td>
                                     </tr>
                                     <tr *ngIf="selectedProduct.length==0">
                                         <td colspan="7" class="text-center">No Records found</td>
@@ -211,11 +216,12 @@
                                 <div class="col-md-4">
                                 </div>
                                 <div class="col-md-12">
-                                    License : <img [src]="getImage(selectedOrder.driverlicense)" *ngIf="selectedOrder.driverlicense" style="width: 250px;height: 250px;">
+                                    License : <img [src]="getImage(selectedOrder.driverlicense)"
+                                        *ngIf="selectedOrder.driverlicense" style="width: 250px;height: 250px;">
                                 </div>
                             </div>
                             <hr>
-                            <div class="row mt-4" *ngIf="checkOrder()"> 
+                            <div class="row mt-4" *ngIf="checkOrder()">
                                 <div class="col-md-12">
                                     <h3>Damage Uploads</h3>
                                     <table class="table table-responsive">
@@ -241,20 +247,34 @@
                                             <tr *ngFor="let order of selectedProduct">
                                                 <td>{{order.checkindate|date:'medium'}}</td>
                                                 <td>{{order.checkoutdate|date:'medium'}}</td>
-                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.initialimage1}}" *ngIf="order.screenshoot?.initialimage1"></td>
-                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.initialimage2}}" *ngIf="order.screenshoot?.initialimage2"></td>
-                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.initialimage3}}" *ngIf="order.screenshoot?.initialimage3"></td>
-                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.initialimage4}}" *ngIf="order.screenshoot?.initialimage4"></td>
-                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.additionstartimage}}" *ngIf="order.screenshoot?.additionstartimage"></td>
-                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.reportimage1}}" *ngIf="order.screenshoot?.reportimage1"></td>
-                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.reportimage2}}" *ngIf="order.screenshoot?.reportimage2"></td>
-                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.reportimage3}}" *ngIf="order.screenshoot?.reportimage3"></td>
-                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.reportimage4}}" *ngIf="order.screenshoot?.reportimage4"></td>
-                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.completedimage1}}" *ngIf="order.screenshoot?.completedimage1"></td>
-                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.completedimage2}}" *ngIf="order.screenshoot?.completedimage2"></td>
-                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.completedimage3}}" *ngIf="order.screenshoot?.completedimage3"></td>
-                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.completedimage4}}" *ngIf="order.screenshoot?.completedimage4"></td>
-                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.additionendimage}}" *ngIf="order.screenshoot?.additionendimage"></td>
+                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.initialimage1}}"
+                                                        *ngIf="order.screenshoot?.initialimage1"></td>
+                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.initialimage2}}"
+                                                        *ngIf="order.screenshoot?.initialimage2"></td>
+                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.initialimage3}}"
+                                                        *ngIf="order.screenshoot?.initialimage3"></td>
+                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.initialimage4}}"
+                                                        *ngIf="order.screenshoot?.initialimage4"></td>
+                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.additionstartimage}}"
+                                                        *ngIf="order.screenshoot?.additionstartimage"></td>
+                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.reportimage1}}"
+                                                        *ngIf="order.screenshoot?.reportimage1"></td>
+                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.reportimage2}}"
+                                                        *ngIf="order.screenshoot?.reportimage2"></td>
+                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.reportimage3}}"
+                                                        *ngIf="order.screenshoot?.reportimage3"></td>
+                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.reportimage4}}"
+                                                        *ngIf="order.screenshoot?.reportimage4"></td>
+                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.completedimage1}}"
+                                                        *ngIf="order.screenshoot?.completedimage1"></td>
+                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.completedimage2}}"
+                                                        *ngIf="order.screenshoot?.completedimage2"></td>
+                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.completedimage3}}"
+                                                        *ngIf="order.screenshoot?.completedimage3"></td>
+                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.completedimage4}}"
+                                                        *ngIf="order.screenshoot?.completedimage4"></td>
+                                                <td><img src="{{order.screenshoot?.path}}{{order.screenshoot?.additionendimage}}"
+                                                        *ngIf="order.screenshoot?.additionendimage"></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -276,11 +296,12 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search Order Id" [(ngModel)]="searchKey">
+                                <input type="text" class="form-control" placeholder="Search Order Id"
+                                    [(ngModel)]="searchKey">
                             </div>
                         </div>
                     </div>
-                    
+
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -302,7 +323,8 @@
                                 <td>{{data.updatedAt|date:'mediumDate'}}</td>
                                 <td>{{data.User.firstname}}</td>
                                 <td>{{data.amountpaid}}</td>
-                                <td><i class="fa fa-eye" (click)="viewDetails(data)" *ngIf="data.type!='wallet'"></i> <i class="fa fa-inbox text-danger ml-3" *ngIf="data.isreaded==0"></i>
+                                <td><i class="fa fa-eye" (click)="viewDetails(data)" *ngIf="data.type!='wallet'"></i> <i
+                                        class="fa fa-inbox text-danger ml-3" *ngIf="data.isreaded==0"></i>
                                 </td>
                             </tr>
                             <tr *ngIf="dataLists.length==0">

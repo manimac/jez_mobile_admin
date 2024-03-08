@@ -154,6 +154,11 @@ export class SidebarComponent implements OnInit {
           icon: 'mdi-cart'
         },
         {
+          label: 'Extend Booking',
+          route: '/extend-booking',
+          icon: 'mdi-cart'
+        },
+        {
           label: 'Terms And Conditions',
           route: '/terms-and-conditions',
           icon: 'mdi-cart'

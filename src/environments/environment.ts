@@ -4,14 +4,15 @@
 
 export const environment = {
   production: false,
-  baseurl: 'http://localhost:8080/jezsel/',
-  authurl: 'http://localhost:8080/jezsel/api/',
-  // baseurl: 'https://jezsel.nl/mobileapp/',
-  // authurl: 'https://jezsel.nl/mobileapp/api/',
+  // baseurl: 'http://localhost:8080/jezsel/',
+  // authurl: 'http://localhost:8080/jezsel/api/',
+  baseurl: 'https://jezsel.nl/mobileapp/',
+  authurl: 'https://jezsel.nl/mobileapp/api/',
 };
 
 /*
  * For easier debugging in development mode, you can import the following file
+
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
  *
  * This import should be commented out in production mode because it will have a negative impact
