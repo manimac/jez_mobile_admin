@@ -65,7 +65,7 @@ export class LocationsComponent implements OnInit {
   // }
   
   formGroup: FormGroup = new FormGroup({
-    id: new FormControl(''),
+    id: new FormControl(null),
     content: new FormControl('', Validators.required),
     iframes: new FormControl('', Validators.required)
   })

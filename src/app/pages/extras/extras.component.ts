@@ -12,7 +12,7 @@ export class ExtrasComponent implements OnInit {
 
   vehicleTypes: any = types;
   formGroup: FormGroup = new FormGroup({
-    id: new FormControl(''),
+    id: new FormControl(null),
     description: new FormControl('', Validators.required),
     type: new FormControl('', Validators.required),
     price: new FormControl(''),

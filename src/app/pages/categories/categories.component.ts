@@ -69,7 +69,9 @@ export class CategoriesComponent implements OnInit {
   save(){
     let url = (this.formGroup.value.id) ? 'category/update' : 'category/create';
     let _form = new FormData();
-    _form.append('id', this.formGroup.value.id);
+    if(this.formGroup.value.id){
+      _form.append('id', this.formGroup.value.id);
+    }
     _form.append('title', this.formGroup.value.title);
     _form.append('icon1', this.formGroup.value.icon1);
     this.http.post(url, _form).subscribe(

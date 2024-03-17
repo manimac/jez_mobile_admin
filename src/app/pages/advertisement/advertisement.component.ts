@@ -64,7 +64,9 @@ export class AdvertisementComponent implements OnInit {
   save(){
     let url = (this.formGroup.value.id) ? 'advertisement/update' : 'advertisement/create';
     let _form = new FormData();
-    _form.append('id', this.formGroup.value.id);
+    if(this.formGroup.value.id){
+      _form.append('id', this.formGroup.value.id);
+    }
     _form.append('title', this.formGroup.value.title);
     _form.append('image', this.formGroup.value.image);
     this.http.post(url, _form).subscribe(

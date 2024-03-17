@@ -42,43 +42,67 @@
                                         </option>
                                     </select>
                                 </td>
-                                <td>{{orderData.User?.fullname}} {{orderData.checkintime}}</td>
-                                <td>{{orderData.checkinDate}} {{orderData.checkintime}}</td>
-                                <td>{{orderData.checkoutDate}} {{orderData.checkouttime}}</td>
-                                <td><button class="btn btn-primary" (click)="checkAvailability()">Edit</button></td>
+                                <td>{{orderData.User?.fullname}}</td>
+                                <td>{{orderData.checkindate| date: 'dd-MM-yyyy'}} {{orderData.checkintime}}</td>
+                                <td>{{orderData.checkoutdate| date: 'dd-MM-yyyy'}} {{orderData.checkouttime}}</td>
+                                <td><button class="btn btn-primary" (click)="checkAvailability(false)">Update</button>
+                                    <button class="btn btn-primary d-none" id="updatetrigger" data-toggle="modal"
+                                    data-target="#myModal">Update</button></td>
                             </tr>
                         </tbody>
-                        <!-- <tbody>
-                            <tr>
-                                <td>{{orderData.name}}</td>
-                                <td>{{orderData.User?.fullname}} {{orderData.checkintime}}</td>
-                                <td>
-                                    <input type="date" class="form-control" [(ngModel)]="orderData.checkinModifieddate" [attr.min]='minDate' (change)="setCheckoutDate()">
-                                </td>
-                                <td>
-                                    <select class="form-control" placeholder="check-in Time"
-                                        [(ngModel)]="orderData.checkintime" (change)="changeCheckin()"
-                                        name="checkintime">
-                                        <option value="">check-in Time</option>
-                                        <option *ngFor="let x of slots" [disabled]="checkinDisabled(x)" value="{{x}}">
-                                            {{x}}</option>
-                                    </select>
-                                </td>
-                                <td><input type="date" class="form-control"
-                                        [(ngModel)]="orderData.checkoutModifieddate" [attr.min]='orderData.checkinModifieddate'></td>
-                                <td>
-                                    <select class="form-control" placeholder="check-out Time" [(ngModel)]="orderData.checkouttime" name="checkouttime">
-                                        <option value="">check-out Time</option>
-                                        <option *ngFor="let x of slots" [disabled]="checkoutDisabled(x)" value="{{x}}">
-                                            {{x}}</option>
-                                    </select>
-                                </td>
-                                <td><button class="btn btn-primary" (click)="checkAvailability()">Edit</button></td>
-                            </tr>
-                        </tbody> -->
                     </table>
                     <p *ngIf="!orderData">No records found</p>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-xl">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Extend booking</h4>
+                <button type="button" class="btn-close close pull-right" aria-label="Close" data-dismiss="modal">
+                    <span aria-hidden="true" class="visually-hidden">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body jezsel-profile-myord-pp">
+                <div class="container profile-popup-content table-responsive pb-4">
+                    <table class="table table-bordered table-responsive" *ngIf="orderData">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>User</th>
+                                <th>Checkin</th>
+                                <th>Checkout</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ord of notAvailableLists">
+                                <td>
+                                    <select class="form-control" [(ngModel)]="ord.product_id" name="productId">
+                                        <option value="">Select Type</option>
+                                        <option *ngFor="let type of productLists" value="{{type.id}}">{{type.name}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>{{ord.User?.fullname}}</td>
+                                <td>{{ord.checkindate| date: 'dd-MM-yyyy'}} {{ord.checkintime}}</td>
+                                <td>{{ord.checkoutdate| date: 'dd-MM-yyyy'}} {{ord.checkouttime}}</td>
+                                <td><button class="btn btn-primary" (click)="checkAvailabilityOrder(ord)">Update</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="closepopup" data-dismiss="modal">Sluiten</button>
+                <button type="button" class="btn btn-primary" (click)="checkAvailability(true)">Save</button>
             </div>
         </div>
     </div>

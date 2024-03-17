@@ -10,7 +10,7 @@ import { HttpRequestService } from 'src/app/services/http-request/http-request.s
 export class CouponsComponent implements OnInit {
 
   formGroup: FormGroup = new FormGroup({
-    id: new FormControl(''),
+    id: new FormControl(null),
     name: new FormControl('', Validators.required),
     code: new FormControl('', Validators.required),
     price: new FormControl('', Validators.required),

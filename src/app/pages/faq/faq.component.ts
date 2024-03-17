@@ -9,7 +9,7 @@ import { HttpRequestService } from 'src/app/services/http-request/http-request.s
 export class FaqComponent implements OnInit {
 
   formGroup: FormGroup = new FormGroup({
-    id: new FormControl(''),
+    id: new FormControl(null),
     title: new FormControl('', Validators.required),
     content: new FormControl('', Validators.required)
   })

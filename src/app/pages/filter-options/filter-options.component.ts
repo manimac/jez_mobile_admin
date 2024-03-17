@@ -11,7 +11,7 @@ export class FilterOptionsComponent implements OnInit {
 
   vehicleTypes: any = types;
   formGroup: FormGroup = new FormGroup({
-    id: new FormControl(''),
+    id: new FormControl(null),
     name: new FormControl('', Validators.required),
     type: new FormControl('', Validators.required),
     category: new FormControl('', Validators.required)

@@ -11,7 +11,7 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 export class FunctionsComponent implements OnInit {
 
   formGroup: FormGroup = new FormGroup({
-    id: new FormControl(''),
+    id: new FormControl(null),
     title: new FormControl('', Validators.required),
     category_id: new FormControl('', Validators.required)
   })

@@ -9,7 +9,7 @@ import { HttpRequestService } from 'src/app/services/http-request/http-request.s
 export class PickupLocationsComponent implements OnInit {
 
   formGroup: FormGroup = new FormGroup({
-    id: new FormControl(''),
+    id: new FormControl(null),
     name: new FormControl('', Validators.required)
   })
   showForm: boolean = false;

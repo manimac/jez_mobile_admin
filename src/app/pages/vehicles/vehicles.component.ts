@@ -22,7 +22,7 @@ export class VehiclesComponent implements OnInit {
     adavanceamountforday: new FormControl('', Validators.required),
     noofseats: new FormControl('', Validators.required),
     acceleration: new FormControl('', Validators.required),
-    location_id: new FormControl('', Validators.required),
+    location_id: new FormControl(''),
     location: new FormControl(''),
     description: new FormControl('', Validators.required),
     shortdescription: new FormControl('', Validators.required),
@@ -258,21 +258,24 @@ export class VehiclesComponent implements OnInit {
   save() {
     let url = (this.formGroup.value.id) ? 'order/update' : 'order/create'
     let _form = new FormData();
-    _form.append('id', this.formGroup.value.id);
+    if(this.formGroup.value.id){
+      _form.append('id', this.formGroup.value.id);
+    }    
     _form.append('name', this.formGroup.value.name);
     let str = this.formGroup.value.name.replace(/\s+/g, '-').toLowerCase();
     _form.append('route', str);
     _form.append('type', this.formGroup.value.type);
     _form.append('priceperhr', this.formGroup.value.priceperhr);
     _form.append('adavanceamountforday', this.formGroup.value.adavanceamountforday);
+    _form.append('priceperday', this.formGroup.value.priceperday);
     _form.append('noofseats', this.formGroup.value.noofseats);
     _form.append('acceleration', this.formGroup.value.acceleration);
-    _form.append('location_id', this.formGroup.value.location_id);
+    // _form.append('location_id', this.formGroup.value.location_id);
     _form.append('location', this.formGroup.value.location);
     _form.append('shortdescription', this.formGroup.value.shortdescription);
     _form.append('description', this.formGroup.value.description);
     _form.append('status', this.formGroup.value.status ? "1" : "0");
-    _form.append('showinindex', this.formGroup.value.showinindex);
+    _form.append('showinindex', "0");
     _form.append('thumbnail', this.formGroup.value.thumbnail);
     _form.append('qnr', this.formGroup.value.qnr);
     _form.append('lat', this.formGroup.value.lat);
@@ -324,6 +327,7 @@ export class VehiclesComponent implements OnInit {
         this.selectedSpecifications = [];
         this.formGroup.reset();
         this.loadData();
+        location.reload()
       },
       (error: any) => {
         this.http.exceptionHandling(error);

@@ -9,7 +9,7 @@ import { HttpRequestService } from 'src/app/services/http-request/http-request.s
 export class StaffsComponent implements OnInit {
 
   formGroup: FormGroup = new FormGroup({
-    id: new FormControl(''),
+    id: new FormControl(null),
     firstname: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
