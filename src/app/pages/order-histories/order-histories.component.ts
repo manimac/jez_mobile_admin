@@ -40,20 +40,22 @@ export class OrderHistoriesComponent implements OnInit {
     let params = {
       status: 1
     }
-    this.http.post('orders', params).subscribe(
+    this.http.post('orders-admin/', params).subscribe(
       (response: any) => {
         if (response && response.data && Array.isArray(response.data) && (response.data.length > 0)) {
           response.data = response.data.filter((el: any) => (el.type != 'maintenance'));
           response.data.forEach((element: any) => {
             let services: any = [];
-            element.Orderhistories.forEach((element2: any) => {
-              if (!element2.extra_id) {
-                services.push(element2.type);
-              }
-            });
+            services.push(element.type);
+            // element.forEach((element2: any) => {
+            //   if (!element2.extra_id) {
+            //     services.push(element2.type);
+            //   }
+            // });
             element.services = services.join(',');
           });
           this.dataLists = response.data;
+          console.log(this.dataLists)
         }
       },
       (error: any) => {
@@ -64,18 +66,18 @@ export class OrderHistoriesComponent implements OnInit {
 
   viewDetails(data: any) {
     this.selectedOrder = data;
-    this.http.post('order/update-read', { id: data.id, isreaded: 1 }).subscribe(
+    this.http.post('order-history/update', { id: data.id, isreaded: 1 }).subscribe(
       (response: any) => {
         this.http.updateOrder.emit();
-        this.dataLists.forEach((el: any)=>{
-          if(el.id == data.id){
+        this.dataLists.forEach((el: any) => {
+          if (el.id == data.id) {
             el.isreaded = 1;
           }
         })
         this.showDetails = true;
         this.selectedUser = data.User;
         let histories: any = []
-        data.Orderhistories.sort(function (a: any, b: any) {
+        data.Order?.Orderhistories.sort(function (a: any, b: any) {
           var keyA = new Date(a.extra_id),
             keyB = new Date(b.extra_id);
           // Compare the 2 dates
@@ -83,10 +85,9 @@ export class OrderHistoriesComponent implements OnInit {
           if (keyA > keyB) return 1;
           return 0;
         });
-        data.Orderhistories.forEach((element: any) => {
-          element.extras = [];
-        })
-        data.Orderhistories.forEach((element: any) => {
+        data.extras = [];
+        histories.push(data);
+        data.Order?.Orderhistories.forEach((element: any) => {
           let findOrder = histories.find((element2: any) => (element2.product_id == element.product_id));
           if (findOrder && element.extra_id) {
             histories.forEach((element2: any) => {
@@ -105,9 +106,10 @@ export class OrderHistoriesComponent implements OnInit {
             });
           }
           else {
-            histories.push(element);
+            // histories.push(element);
           }
         });
+
         this.selectedProduct = histories;
         console.log(this.selectedProduct)
       },
@@ -135,19 +137,19 @@ export class OrderHistoriesComponent implements OnInit {
     )
   }
 
-  getImage(img: any){
-    if(img){
+  getImage(img: any) {
+    if (img) {
       return "https://jezsel.nl/jezsel/uploads/product/" + img;
     }
-    return '';    
+    return '';
   }
 
-  checkOrder(){
+  checkOrder() {
     return this.selectedProduct
   }
 
   endbooking(order: any) {
-    this.http.post('order-history/update', { id: order.id, endbooking: 1 }).subscribe(
+    this.http.post('order-history/update', { id: order.id, endbooking: 1, created: 'Admin' }).subscribe(
       (response: any) => {
         this.http.successMessage("Booking completed");
         this.showDetails = false;

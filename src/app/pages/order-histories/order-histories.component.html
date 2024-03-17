@@ -311,6 +311,8 @@
                                 <th> Booked On </th>
                                 <th> User </th>
                                 <th> Amount </th>
+                                <th> Ended by </th>
+                                <th> Status </th>
                                 <th> View </th>
                             </tr>
                         </thead>
@@ -322,7 +324,9 @@
                                 <td *ngIf="data.type=='wallet'">Deposit - {{data.User ? data.User.firstname : ''}}</td>
                                 <td>{{data.updatedAt|date:'mediumDate'}}</td>
                                 <td>{{data.User.firstname}}</td>
-                                <td>{{data.amountpaid}}</td>
+                                <td>{{data.Order?.amountpaid}}</td>
+                                <td>{{data.created}}</td>
+                                <td>{{data.endbooking ? 'Completed' : 'Inprogress'}}</td>
                                 <td><i class="fa fa-eye" (click)="viewDetails(data)" *ngIf="data.type!='wallet'"></i> <i
                                         class="fa fa-inbox text-danger ml-3" *ngIf="data.isreaded==0"></i>
                                 </td>
