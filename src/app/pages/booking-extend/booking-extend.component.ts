@@ -65,6 +65,27 @@ export class BookingExtendComponent implements OnInit {
           console.log(response)
           if (response) {
             this.orderData = response;
+            if (this.orderData) {
+              let checkindate = this.orderData.checkindate.split(" ");
+              this.orderData.checkindate = checkindate[0]
+              let checkoutdate = this.orderData.checkoutdate.split(" ");
+              this.orderData.checkoutdate = checkoutdate[0]
+              let checkintime: any = this.orderData.checkintime.split(":");
+              if (checkintime.length > 1) {
+                this.orderData.checkintime = checkintime[0] + ":" + checkintime[1];
+                if (this.orderData.checkintime.startsWith('0')) {
+                  this.orderData.checkintime = this.orderData.checkintime.slice(1);
+                }
+              }
+              let checkouttime: any = this.orderData.checkouttime.split(":");
+              if (checkouttime.length > 1) {
+                this.orderData.checkouttime = checkouttime[0] + ":" + checkouttime[1];
+                if (this.orderData.checkouttime.startsWith('0')) {
+                  this.orderData.checkouttime = this.orderData.checkouttime.slice(1);
+                }
+              }
+              console.log(this.orderData)
+            }
           }
           else {
             this.http.errorMessage("We don't have any order")
@@ -79,8 +100,8 @@ export class BookingExtendComponent implements OnInit {
   checkAvailability(bool: Boolean) {
     this.showPopup = false;
     if (this.orderData) {
-      let splitcheckin = this.orderData.checkindate.split('T')
-      let splitcheckout = this.orderData.checkoutdate.split('T')
+      let splitcheckin = this.orderData.checkindate.split(' ')
+      let splitcheckout = this.orderData.checkoutdate.split(' ')
       let checkinDate = splitcheckin[0].split('-').reverse().join('-');
       let checkoutDate = splitcheckout[0].split('-').reverse().join('-');
       let obj = {
@@ -99,17 +120,18 @@ export class BookingExtendComponent implements OnInit {
             response = response.filter((element: any) => (element.id != this.orderData.id));
             if (response && Array.isArray(response) && (response.length > 0)) {
               this.notAvailableLists = response;
-              if(!bool){
+              if (!bool) {
                 this.showPopup = true;
                 const modalElement = this.el.nativeElement.querySelector('#updatetrigger');
                 modalElement.click();
               }
-              else{
+              else {
                 this.http.errorMessage("Please change a products for selected slot");
               }
             }
             else {
-              this.http.successMessage("Updated Successfully.");
+              this.updateCurrentOrder()
+              // this.http.successMessage("Updated Successfully.");
             }
           }
           else {
@@ -122,34 +144,63 @@ export class BookingExtendComponent implements OnInit {
   }
 
   updateCurrentOrder() {
-    let checkinDate = this.checkinDate.split('-').reverse().join('-');
-    let checkoutDate = this.checkoutDate.split('-').reverse().join('-');
+    let checkinDate = this.orderData.checkindate.split('-').reverse().join('-');
+    let checkoutDate = this.orderData.checkoutdate.split('-').reverse().join('-');
+    let utcDate = new Date(this.orderData.checkindate + " " + this.orderData.checkouttime);
+    let month = utcDate.getUTCMonth() + 1;
+
+    var d = new Date(utcDate.getUTCFullYear() + "-" + month + "-" + utcDate.getUTCDate() + " " + utcDate.getUTCHours() + ":" + utcDate.getUTCMinutes())
+    let maxcheckoutdateutc = [d.getMonth() + 1,
+    d.getDate(),
+    d.getFullYear()].join('-') + ' ' +
+      [d.getHours(),
+      d.getMinutes()].join(':');
+      let params = {
+        id: this.orderData.id,
+        checkoutdate: checkoutDate,
+        checkouttime: this.orderData.checkouttime,
+        maxcheckoutdateutc: maxcheckoutdateutc
+      }
+      this.http.post('order-history/updateorder', params).subscribe(
+        (order: any) => {
+          this.http.successMessage("Updated Successfully.");
+          const modalElement = this.el.nativeElement.querySelector('#closepopup');
+          modalElement.click();
+          this.findOrders();
+        });
+  }
+
+
+  checkAvailabilityOrder(order: any) {
+    let splitcheckin = order.checkindate.split(' ')
+    let splitcheckout = order.checkoutdate.split(' ')
+    let checkinDate = splitcheckin[0].split('-').reverse().join('-');
+    let checkoutDate = splitcheckout[0].split('-').reverse().join('-');
     let obj = {
-      "product_id": this.orderData.product_id,
+      "product_id": order.product_id,
       "type": 'Rent',
       "location": "",
       "locationid": null,
       "checkindate": checkinDate,
       "checkoutdate": checkoutDate,
-      "checkintime": this.checkintime,
-      "checkouttime": this.checkouttime
+      "checkintime": order.checkintime,
+      "checkouttime": order.checkouttime
     }
     this.http.post('order/availability', obj).subscribe(
       (response: any) => {
         if (!response.booked || (response.booked == false)) {
-          let findProduct = this.productLists.find((element: any) => (element.id == this.orderData.product_id))
+          let findProduct = this.productLists.find((element: any) => (element.id == order.product_id))
           if (findProduct) {
             let params = {
-              id: this.orderData.id,
-              product_id: this.orderData.product_id,
+              id: order.id,
+              product_id: order.product_id,
               name: findProduct.name
             }
             this.http.post('order-history/update', params).subscribe(
               (order: any) => {
+                // this.checkAvailability();
                 this.http.successMessage("Updated Successfully.");
-                const modalElement = this.el.nativeElement.querySelector('#closepopup');
-                modalElement.click();
-                this.findOrders();
+                // this.findOrders();
               });
           }
           else {
@@ -160,49 +211,6 @@ export class BookingExtendComponent implements OnInit {
           this.http.errorMessage("We don't have availability for this slot. Please select a different slot.")
         }
       });
-  }
-
-
-  checkAvailabilityOrder(order: any) {
-      let splitcheckin = order.checkindate.split('T')
-      let splitcheckout = order.checkoutdate.split('T')
-      let checkinDate = splitcheckin[0].split('-').reverse().join('-');
-      let checkoutDate = splitcheckout[0].split('-').reverse().join('-');
-      let obj = {
-        "product_id": order.product_id,
-        "type": 'Rent',
-        "location": "",
-        "locationid": null,
-        "checkindate": checkinDate,
-        "checkoutdate": checkoutDate,
-        "checkintime": order.checkintime,
-        "checkouttime": order.checkouttime
-      }
-      this.http.post('order/availability', obj).subscribe(
-        (response: any) => {
-          if (!response.booked || (response.booked == false)) {
-            let findProduct = this.productLists.find((element: any) => (element.id == order.product_id))
-            if (findProduct) {
-              let params = {
-                id: order.id,
-                product_id: order.product_id,
-                name: findProduct.name
-              }
-              this.http.post('order-history/update', params).subscribe(
-                (order: any) => {
-                  // this.checkAvailability();
-                  this.http.successMessage("Updated Successfully.");
-                  // this.findOrders();
-                });
-            }
-            else {
-              this.http.errorMessage("We don't have availability for this slot. Please select a different slot.")
-            }
-          }
-          else {
-            this.http.errorMessage("We don't have availability for this slot. Please select a different slot.")
-          }
-        });
   }
 
 
@@ -255,6 +263,47 @@ export class BookingExtendComponent implements OnInit {
     this.orderData.checkoutModifieddate = this.orderData.checkinModifieddate;
     this.orderData.checkintime = '';
     this.orderData.checkouttime = '';
+  }
+
+  changeVehicle(){
+    let splitcheckin = this.orderData.checkindate.split(' ')
+    let splitcheckout = this.orderData.checkoutdate.split(' ')
+    let checkinDate = splitcheckin[0].split('-').reverse().join('-');
+    let checkoutDate = splitcheckout[0].split('-').reverse().join('-');
+    let obj = {
+      "product_id": this.orderData.product_id,
+      "type": 'Rent',
+      "location": "",
+      "locationid": null,
+      "checkindate": checkinDate,
+      "checkoutdate": checkoutDate,
+      "checkintime": this.orderData.checkintime,
+      "checkouttime": this.orderData.checkouttime
+    }
+    this.http.post('order/availability', obj).subscribe(
+      (response: any) => {
+        if (!response.booked || (response.booked == false)) {
+          let findProduct = this.productLists.find((element: any) => (element.id == this.orderData.product_id))
+          if (findProduct) {
+            let params = {
+              id: this.orderData.id,
+              product_id: this.orderData.product_id,
+              name: findProduct.name
+            }
+            this.http.post('order-history/update', params).subscribe(
+              (order: any) => {
+                this.http.successMessage("Updated Successfully.");
+                this.findOrders();
+              });
+          }
+          else {
+            this.http.errorMessage("We don't have availability for this slot. Please select a different slot.")
+          }
+        }
+        else {
+          this.http.errorMessage("We don't have availability for this slot. Please select a different slot.")
+        }
+      });
   }
 
 }

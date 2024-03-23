@@ -23,6 +23,61 @@
         <div class="col-lg-12 grid-margin stretch-card" *ngIf="loaded">
             <div class="card">
                 <div class="card-body">
+                    <h3>Extend Booking</h3>
+                    <table class="table table-bordered table-responsive" *ngIf="orderData">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>User</th>
+                                <th>Checkin</th>
+                                <th>Checkout</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{orderData.name}}
+                                    <!-- <select class="form-control" [(ngModel)]="orderData.product_id" name="productId">
+                                        <option value="">Select Type</option>
+                                        <option *ngFor="let type of productLists" value="{{type.id}}">{{type.name}}
+                                        </option>
+                                    </select> -->
+                                </td>
+                                <td>{{orderData.User?.fullname}}</td>
+                                <td>
+                                    <!-- <input class="form-control" type="date" [(ngModel)]="orderData.checkindate" name="checkinDate" (change)="setCheckoutDate()" [attr.min]='minDate'>
+                                    <select class="form-control" placeholder="check-in Time" [(ngModel)]="orderData.checkintime" (change)="changeCheckin()" name="checkintime">
+                                        <option value="">check-in Time</option>
+                                        <option *ngFor="let x of slots" [disabled]="checkinDisabled(x)" value="{{x}}">{{x}}</option>
+                                    </select> -->
+                                    {{orderData.checkindate| date: 'dd-MM-yyyy'}} {{orderData.checkintime}}
+                                </td>
+                                <td>
+                                    <input class="form-control" type="date" [(ngModel)]="orderData.checkoutdate"
+                                        name="checkoutDate" [attr.min]='checkinDate'>
+                                    <select class="form-control" placeholder="check-out Time"
+                                        [(ngModel)]="orderData.checkouttime" name="checkouttime">
+                                        <option value="">check-out Time</option>
+                                        <option *ngFor="let x of slots" [disabled]="checkoutDisabled(x)" value="{{x}}">
+                                            {{x}}</option>
+                                    </select>
+                                    <!-- {{orderData.checkoutdate| date: 'dd-MM-yyyy'}} {{orderData.checkouttime}} -->
+                                </td>
+                                <td><button class="btn btn-primary" (click)="checkAvailability(false)">Update</button>
+                                    <button class="btn btn-primary d-none" id="updatetrigger" data-toggle="modal"
+                                        data-target="#myModal">Update</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p *ngIf="!orderData">No records found</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 grid-margin stretch-card" *ngIf="loaded">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Change Vehicle</h3>
                     <table class="table table-bordered table-responsive" *ngIf="orderData">
                         <thead>
                             <tr>
@@ -43,11 +98,13 @@
                                     </select>
                                 </td>
                                 <td>{{orderData.User?.fullname}}</td>
-                                <td>{{orderData.checkindate| date: 'dd-MM-yyyy'}} {{orderData.checkintime}}</td>
-                                <td>{{orderData.checkoutdate| date: 'dd-MM-yyyy'}} {{orderData.checkouttime}}</td>
-                                <td><button class="btn btn-primary" (click)="checkAvailability(false)">Update</button>
-                                    <button class="btn btn-primary d-none" id="updatetrigger" data-toggle="modal"
-                                    data-target="#myModal">Update</button></td>
+                                <td>
+                                    {{orderData.checkindate| date: 'dd-MM-yyyy'}} {{orderData.checkintime}}
+                                </td>
+                                <td>
+                                    {{orderData.checkoutdate| date: 'dd-MM-yyyy'}} {{orderData.checkouttime}}
+                                </td>
+                                <td><button class="btn btn-primary" (click)="changeVehicle()">Update</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -94,7 +151,8 @@
                                 <td>{{ord.User?.fullname}}</td>
                                 <td>{{ord.checkindate| date: 'dd-MM-yyyy'}} {{ord.checkintime}}</td>
                                 <td>{{ord.checkoutdate| date: 'dd-MM-yyyy'}} {{ord.checkouttime}}</td>
-                                <td><button class="btn btn-primary" (click)="checkAvailabilityOrder(ord)">Update</button></td>
+                                <td><button class="btn btn-primary"
+                                        (click)="checkAvailabilityOrder(ord)">Update</button></td>
                             </tr>
                         </tbody>
                     </table>

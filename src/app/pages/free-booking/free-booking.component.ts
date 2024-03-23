@@ -247,13 +247,24 @@ export class FreeBookingComponent implements OnInit {
     let filterProduct = this.productLists.filter((el: any) => (el.id == this.productId));
     let checkinDate = this.checkinDate.split('-').reverse().join('-');
     let checkoutDate = this.checkoutDate.split('-').reverse().join('-');
+    let utcDate = new Date(this.checkinDate + " " + this.checkouttime);
+    let month = utcDate.getUTCMonth() + 1;
+    var d = new Date(utcDate.getUTCFullYear() + "-" + month + "-" + utcDate.getUTCDate() + " " + utcDate.getUTCHours() + ":" + utcDate.getUTCMinutes())
+    let maxcheckoutdateutc = [d.getMonth() + 1,
+    d.getDate(),
+    d.getFullYear()].join('-') + ' ' +
+      [d.getHours(),
+      d.getMinutes()].join(':');
+
+
     if (filterProduct && (filterProduct.length > 0)) {      
       filterProduct[0]['search'] = {
         "locationid": filterProduct[0].location_id,
         "checkindate": checkinDate,
         "checkoutdate": checkoutDate,
         "checkintime": this.checkintime,
-        "checkouttime": this.checkouttime
+        "checkouttime": this.checkouttime,
+        maxcheckoutdateutc: maxcheckoutdateutc
       }
     }
     filterProduct[0]["type"] = 'Rent'
@@ -301,7 +312,7 @@ export class FreeBookingComponent implements OnInit {
   splitDate(date: any){
     let result = '';
     if(date){
-      let splitDate = date.split('T');
+      let splitDate = date.split(' ');
       if(splitDate && Array.isArray(splitDate) && splitDate.length>0){
         let newDate = splitDate[0];
         let splitReverse = newDate.split('-');

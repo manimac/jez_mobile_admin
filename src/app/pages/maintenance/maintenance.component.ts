@@ -282,7 +282,7 @@ export class MaintenanceComponent implements OnInit {
   splitDate(date: any) {
     let result = '';
     if (date) {
-      let splitDate = date.split('T');
+      let splitDate = date.split(' ');
       if (splitDate && Array.isArray(splitDate) && splitDate.length > 0) {
         let newDate = splitDate[0];
         let splitReverse = newDate.split('-');
