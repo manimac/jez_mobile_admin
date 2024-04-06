@@ -150,11 +150,12 @@ export class BookingExtendComponent implements OnInit {
     let month = utcDate.getUTCMonth() + 1;
 
     var d = new Date(utcDate.getUTCFullYear() + "-" + month + "-" + utcDate.getUTCDate() + " " + utcDate.getUTCHours() + ":" + utcDate.getUTCMinutes())
-    let maxcheckoutdateutc = [d.getMonth() + 1,
-    d.getDate(),
-    d.getFullYear()].join('-') + ' ' +
-      [d.getHours(),
-      d.getMinutes()].join(':');
+    // let maxcheckoutdateutc = [d.getMonth() + 1,
+    // d.getDate(),
+    // d.getFullYear()].join('-') + ' ' +
+    //   [d.getHours(),
+    //   d.getMinutes()].join(':');
+      let maxcheckoutdateutc = [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('-') + ' ' + [d.getHours(), d.getMinutes()].join(':');
       let params = {
         id: this.orderData.id,
         checkoutdate: checkoutDate,
