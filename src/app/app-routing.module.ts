@@ -30,6 +30,7 @@ import { EmployersComponent } from './pages/employers/employers.component';
 import { FreeBookingComponent } from './pages/free-booking/free-booking.component';
 import { FunctionsComponent } from './pages/functions/functions.component';
 import { BookingExtendComponent } from './pages/booking-extend/booking-extend.component';
+import { FuelComponent } from './pages/fuel/fuel.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/vehicles', pathMatch: 'full' },
@@ -61,6 +62,7 @@ const routes: Routes = [
   { path: 'employers', component: EmployersComponent, canActivate: [AuthGuardService] },
   { path: 'functions', component: FunctionsComponent, canActivate: [AuthGuardService] },
   { path: 'extend-booking', component: BookingExtendComponent, canActivate: [AuthGuardService] },
+  { path: 'fuel', component: FuelComponent, canActivate: [AuthGuardService] },
   { path: '**', component: VehiclesComponent }
 ];
 

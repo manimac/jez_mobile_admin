@@ -44,9 +44,11 @@ export class VehiclesComponent implements OnInit {
     image3: new FormControl(''),
     image4: new FormControl(''),
     availabledays: new FormControl(''),
-    qnr: new FormControl(''),
-    lat: new FormControl(''),
-    lng: new FormControl('')
+    qnr: new FormControl('', Validators.required),
+    lat: new FormControl('', Validators.required),
+    lng: new FormControl('', Validators.required),
+    fueltype: new FormControl('', Validators.required),
+    fuelcapacity: new FormControl('', Validators.required),
   })
   showForm: boolean = false;
   dataLists: any = [];
@@ -285,6 +287,8 @@ export class VehiclesComponent implements OnInit {
     _form.append('image2', this.formGroup.value.image2);
     _form.append('image3', this.formGroup.value.image3);
     _form.append('image4', this.formGroup.value.image4);
+    _form.append('fueltype', this.formGroup.value.fueltype);
+    _form.append('fuelcapacity', this.formGroup.value.fuelcapacity);
     if (this.formGroup.value.vehicle)
       _form.append('vehicle', this.formGroup.value.vehicle || null);
     if (this.formGroup.value.fuel)

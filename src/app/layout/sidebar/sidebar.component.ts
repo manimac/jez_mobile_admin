@@ -202,6 +202,11 @@ export class SidebarComponent implements OnInit {
           label: 'Certificates',
           route: '/certificates',
           icon: 'mdi-information'
+        },
+        {
+          label: 'Fuel',
+          route: '/fuel',
+          icon: 'mdi-information'
         }
       ];
     }

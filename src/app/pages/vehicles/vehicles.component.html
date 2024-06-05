@@ -32,7 +32,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Name</label>
@@ -296,7 +296,7 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="row">                                    
+                                <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>QNR</label>
@@ -329,9 +329,30 @@
                                         <span class="btn btn-info" (click)="fetchLocation()">Fetch Location</span>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Fuel Type</label>
+                                            <select class="form-control" formControlName="fueltype">
+                                                <option value="">Select Fuel Type</option>
+                                                <option value="Petrol">Petrol</option>
+                                                <option value="Diesel">Diesel</option>
+                                                <option value="Gas">Gas</option>
+                                                <option value="Electric">Electric</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Fuel Capacity</label>
+                                            <input type="text" class="form-control" placeholder="Fuel Capacity"
+                                                formControlName="fuelcapacity">
+                                        </div>
+                                    </div>
+                                </div>
                                 <h3 class="row mt-4">Damage Uploads</h3>
                                 <div class="row">
-                                    
+
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Image 1</label>
@@ -339,7 +360,7 @@
                                                 (change)="onImage1Change(image1.files)">
                                         </div>
                                         <img [src]="selectedRow.path + selectedRow.image1" width="100"
-                                            *ngIf="selectedRow && selectedRow.image1">                                            
+                                            *ngIf="selectedRow && selectedRow.image1">
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -348,7 +369,7 @@
                                                 (change)="onImage2Change(image2.files)">
                                         </div>
                                         <img [src]="selectedRow.path + selectedRow.image2" width="100"
-                                            *ngIf="selectedRow && selectedRow.image2">                                            
+                                            *ngIf="selectedRow && selectedRow.image2">
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -357,7 +378,7 @@
                                                 (change)="onImage3Change(image3.files)">
                                         </div>
                                         <img [src]="selectedRow.path + selectedRow.image3" width="100"
-                                            *ngIf="selectedRow && selectedRow.image3">                                            
+                                            *ngIf="selectedRow && selectedRow.image3">
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -366,7 +387,7 @@
                                                 (change)="onImage4Change(image4.files)">
                                         </div>
                                         <img [src]="selectedRow.path + selectedRow.image4" width="100"
-                                            *ngIf="selectedRow && selectedRow.image4">                                            
+                                            *ngIf="selectedRow && selectedRow.image4">
                                     </div>
                                 </div>
                                 <div class="row mt-4">
