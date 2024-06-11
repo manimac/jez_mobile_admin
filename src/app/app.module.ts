@@ -43,6 +43,7 @@ import { FreeBookingComponent } from './pages/free-booking/free-booking.componen
 import { FunctionsComponent } from './pages/functions/functions.component';
 import { BookingExtendComponent } from './pages/booking-extend/booking-extend.component';
 import { FuelComponent } from './pages/fuel/fuel.component';
+import { ShareComponent } from './pages/share/share.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -83,7 +84,8 @@ import { FuelComponent } from './pages/fuel/fuel.component';
     FreeBookingComponent,
     FunctionsComponent,
     BookingExtendComponent,
-    FuelComponent
+    FuelComponent,
+    ShareComponent
   ],
   imports: [
     BrowserModule,

@@ -31,6 +31,7 @@ import { FreeBookingComponent } from './pages/free-booking/free-booking.componen
 import { FunctionsComponent } from './pages/functions/functions.component';
 import { BookingExtendComponent } from './pages/booking-extend/booking-extend.component';
 import { FuelComponent } from './pages/fuel/fuel.component';
+import { ShareComponent } from './pages/share/share.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/vehicles', pathMatch: 'full' },
@@ -63,6 +64,7 @@ const routes: Routes = [
   { path: 'functions', component: FunctionsComponent, canActivate: [AuthGuardService] },
   { path: 'extend-booking', component: BookingExtendComponent, canActivate: [AuthGuardService] },
   { path: 'fuel', component: FuelComponent, canActivate: [AuthGuardService] },
+  { path: 'share', component: ShareComponent, canActivate: [AuthGuardService] },
   { path: '**', component: VehiclesComponent }
 ];
 

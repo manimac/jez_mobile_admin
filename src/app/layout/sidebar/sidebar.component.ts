@@ -207,6 +207,11 @@ export class SidebarComponent implements OnInit {
           label: 'Fuel',
           route: '/fuel',
           icon: 'mdi-information'
+        },
+        {
+          label: 'Share Price',
+          route: '/share',
+          icon: 'mdi-information'
         }
       ];
     }
